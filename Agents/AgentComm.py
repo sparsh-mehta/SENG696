@@ -1,4 +1,4 @@
-# ------------------------------Protocol Related Defines ##Don't Change##-----------------------------------
+# ------------------------------Protocol Related Defines Don't Change##-----------------------------------
 class AgentCommunication:
 
     CommunicationTxBuffer = ""
