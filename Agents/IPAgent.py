@@ -6,6 +6,7 @@ from spade.template import Template
 
 from Agents.AgentComm import AgentCommunication
 import Converter
+from ImageProcessing import image_classification_model
 
 class IPAgentClass(Agent):
     class IPAgentBehaviour(CyclicBehaviour):
@@ -13,30 +14,30 @@ class IPAgentClass(Agent):
             print("IPAgent Start")
 
         async def run(self):
-            msg = await self.receive(timeout=10) # wait for a message for 10 seconds
+            msg = await self.receive(timeout=5) # wait for a message for 10 seconds
             if msg:
                 ReceivedMessage = msg.body
                 ReceivedMessage = ReceivedMessage.split(":")
-                Converter.decode_str_to_file(ReceivedMessage[1], "decodedImage.jpeg")
-                
-                #TODO call ProcessImage Function here
-                #accuracy, cls, error = ImageProcess()
-                ReturnAccuracy = "95785"
-                Returnclass = "cat"
-                ReturnError = "0"
+                msg = Message(to=AgentCommunication.IAAgentUserID)  # Instantiate the message
+                msg.set_metadata("performative", "inform")  # Set the "inform" FIPA performative
+                try:
+                    Converter.decode_str_to_file(ReceivedMessage[1], "ImageProcessing/decodedImage.jpeg")
+                    ReturnAccuracy, Returnclass, ReturnError = image_classification_model.processImage('ImageProcessing/decodedImage.jpeg')
+                except:
+                    print("{IPAgentClass}: FileDecodeError")
+                    ReturnError = AgentCommunication.FileDecodeError
+                    Returnclass = ""
+                    ReturnAccuracy = ""
                 
                 #print("IPAgent Message Recieved")
                 #print(ReceivedMessage)
-                
-                msg = Message(to=AgentCommunication.IAAgentUserID)  # Instantiate the message
-                msg.set_metadata("performative", "inform")  # Set the "inform" FIPA performative
-
+                               
                 # Send response to Agent1 agent
                 msg.body = AgentCommunication.IPAgentID + \
                         AgentCommunication.IAAgentID + \
                         ReturnError + ":" + \
                         Returnclass + ":" + ReturnAccuracy
-                print(msg.body)
+                print("{IPAgentClass} Request- " + msg.body)
 
                 #print("Agent2Class:Agent2Behaviour:run:msg:response:{CovidReport.pdf Sent}")
                 await self.send(msg)

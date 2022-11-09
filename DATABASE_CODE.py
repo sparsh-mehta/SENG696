@@ -4,7 +4,7 @@ import pandas as pd
 def database(image_id, object_class, accuracy):
 
 	#listt = i_string.split(":")[1:]
-	 
+
 	accuracy = float(accuracy)/100
 	count = 1
 
@@ -25,5 +25,5 @@ def database(image_id, object_class, accuracy):
 
 	return 0
 
-# a = "141:dogs_bablu:dog:09785"
-error = database("dogs_bablu", "dog", "09785")
+# a = "141:dogs_bablu:dog:10000"
+# error = database("dogs_bablu", "dog", "10000")

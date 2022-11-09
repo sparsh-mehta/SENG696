@@ -13,7 +13,6 @@ class IAAgentClass(Agent):
             print("IAAgent Start")
 
         async def run(self):
-            await asyncio.sleep(5)
             if AgentCommunication.CommunicationFlag:
                 # Instantiate the message
                 if AgentCommunication.CommunicationTxBuffer[AgentCommunication.ReceiverAgentIDIndex] == AgentCommunication.DBAgentID:
@@ -27,9 +26,8 @@ class IAAgentClass(Agent):
                 msg.set_metadata("performative", "inform")
 
                 # Set the message content
-
                 msg.body = AgentCommunication.CommunicationTxBuffer
-                print("{IAAgentClass}-Request" + msg.body)
+                print("{IAAgentClass} Request- " + msg.body)
                 #msg.body = Converter.encode_file_to_str("C:/Users/ispar/Desktop/PRS_Project696.xlsx")
                 #print(msg.body)
 
@@ -42,7 +40,7 @@ class IAAgentClass(Agent):
                 if msg:
                     # Copy Received to Communication RX Buffer
                     AgentCommunication.CommunicationRxBuffer = msg.body
-                    print("{IAAgentClass}-Response:" + AgentCommunication.CommunicationRxBuffer)
+                    print("{IAAgentClass} Response- " + AgentCommunication.CommunicationRxBuffer)
                     AgentCommunication.CommunicationError = False
                     AgentCommunication.CommunicationFlag = False
 
@@ -50,7 +48,7 @@ class IAAgentClass(Agent):
                     AgentCommunication.CommunicationFlag = False
                     AgentCommunication.CommunicationError = True
                     #print("Agent1Class:Agent1Behaviour:run:msg:response:\"No Response\"")
-                    print("{IAAgentClass}-No Response")
+                    print("{IAAgentClass} No Response")
                 print("----------------------------------------")
 
 

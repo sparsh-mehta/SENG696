@@ -1,10 +1,11 @@
 import tkinter as tk
 from PIL import ImageTk, Image
+import tkinter.filedialog
 
 from GUI.MainPage import MainPage
 from Application import Curr_Frame
 from Agents.AgentComm import request, AgentCommunication
-from Converter import encode_file_to_str, decode_str_to_file
+from Converter import encode_file_to_str
 
 ImageProcessingPageFrame = tk.Frame
 
@@ -12,28 +13,90 @@ class ImageProcessingPage(ImageProcessingPageFrame):
     filename = ''
     #Button Callbacks Here
     def Button0_Callback(self, controller):
-        print("{ImageProcessingPage}:Button 0 Pressed")
+        print("{ImageProcessingPage} Button 0 Pressed")
         Curr_Frame = MainPage.MainPage
         controller.show_frame(Curr_Frame)
 
     def Button1_Callback(self, controller):
-        print("{ImageProcessingPage}:Button 1 Pressed")
-        f_types = [('Jpeg Files', '*.jpeg'), ('PNG Files','*.png')]
-        ImageProcessingPage.filename = tk.filedialog.askopenfilename(multiple=True,filetypes=f_types)[0]
-        print(ImageProcessingPage.filename)
+        print("{ImageProcessingPage} Button 1 Pressed")
+        # f_types = [('Jpeg Files', '*.jpeg'), ('PNG Files','*.png')]
+
+        try:
+            ImageProcessingPage.filename = tkinter.filedialog.askopenfilename(multiple=True)[0]
+            print(ImageProcessingPage.filename)
+        except:
+            print('File Not Selected')
+            return
+
+        try:
+            returnError, returnData = request(SenderAgentID=AgentCommunication.IAAgentID,
+                ReceiverAgentID=AgentCommunication.FVAgentID, 
+                ErrorCode=AgentCommunication.Success,
+                Data= ImageProcessingPage.filename.split('.')[-1])
+        except:
+            print('Communication Error')
+            tkinter.messagebox.showerror(title="Error", message="No Response")
+            return
+
+        if returnError is AgentCommunication.Failure:
+            print('Invalid File')
+            tkinter.messagebox.showerror(title="Error", message="Invalid File")
+            return 
+
         self.image1 = Image.open(ImageProcessingPage.filename).resize((300, 300))
         self.test = ImageTk.PhotoImage(self.image1)
         self.Label0.configure(image=self.test)
         self.Label0.image = self.test
+        
+
 
     def Button2_Callback(self, controller):
-        print("{ImageProcessingPage}:Button 2 Pressed")
-        returnError, returnData = request(SenderAgentID=AgentCommunication.IAAgentID,
-                ReceiverAgentID=AgentCommunication.IPAgentID, 
-                ErrorCode=AgentCommunication.Success,
-                Data= encode_file_to_str(ImageProcessingPage.filename))
+        print("{ImageProcessingPage} Button 2 Pressed")
+        # requesting IP Agent for class and accuracy
+        try:
+            self.image = Image.open(ImageProcessingPage.filename).resize((300, 300))
+            self.image.save(ImageProcessingPage.filename)
+        except:
+            print('File Not Selected')
+            tkinter.messagebox.showerror(title="Error", message="File Not Selected")
+            return
+
+        try:
+            try:
+                self.data = encode_file_to_str(ImageProcessingPage.filename)
+            except:
+                print("File Encoding Error")
+                tkinter.messagebox.showerror(title="Error", message="File Encoding Error")
+                return
+            returnError, returnData = request(SenderAgentID=AgentCommunication.IAAgentID,
+                    ReceiverAgentID=AgentCommunication.IPAgentID, 
+                    ErrorCode=AgentCommunication.Success,
+                    Data= self.data)
+            #Handling IPAgent Errors
+            if returnError is AgentCommunication.FileDecodeError:
+                print("File Decoding Error")
+                tkinter.messagebox.showerror(title="Error", message="File Decoding Error")
+                return
+
+        except:
+            print('Communication Error')
+            tkinter.messagebox.showerror(title="Error", message="No Response")
+            return
+
         self.Label1.configure(text = returnData[0])
-        self.Label2.configure(text = returnData[1])
+        self.Label2.configure(text = str(float(returnData[1])/100)+"%")
+        # Sending data copy to Db Agent
+        tempVar = ImageProcessingPage.filename.split('/')[-1]
+
+        try:
+            returnError, returnData = request(SenderAgentID=AgentCommunication.IAAgentID,
+                    ReceiverAgentID=AgentCommunication.DBAgentID, 
+                    ErrorCode=AgentCommunication.Success,
+                    Data= tempVar + ':' + returnData[0] + ':' + returnData[1])
+        except:
+            print('Communication Error')
+            tkinter.messagebox.showerror(title="Error", message="No Response")
+            return
 
 
     def __init__(self, parent, controller):

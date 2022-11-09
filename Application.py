@@ -17,8 +17,8 @@ Curr_Frame = 0
 
 def startAgents():
     startIPAgent()
-    # startFVAgent()
-    # startDBAgent()
+    startFVAgent()
+    startDBAgent()
     startIAAgent()
 
 
@@ -28,7 +28,7 @@ class Application(tk.Tk):
         tk.Tk.wm_title(self, "BTC")
 
         self.geometry("1000x600")
-        self.resizable(False, False)
+        self.resizable(True, True)
         self.title("Agent Communication Application")
         self.configure(bg="#bcb8b8")
 
@@ -48,6 +48,7 @@ class Application(tk.Tk):
         self.show_frame(Curr_Frame)
 
 
+
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
@@ -58,4 +59,3 @@ if __name__ == '__main__':
     startAgents()
     app = Application()
     app.mainloop()
-

@@ -24,6 +24,12 @@ class AgentCommunication:
     # Error Codes
     Success = '0'
     Failure = '1'
+    # FV Agent Possible Errors
+    # IP Agent Possible Errors
+    FileDecodeError = '2'
+    #DB Agent Possible Errors
+    DatabaseNotFound = '3'
+    FileEncodeError = '4'
 
     # index reserved for :
     SenderAgentIDIndex = 0

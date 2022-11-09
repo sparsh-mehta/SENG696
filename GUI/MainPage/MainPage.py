@@ -1,9 +1,12 @@
 import tkinter as tk
-import tkinter.simpledialog
+import tkinter.simpledialog , tkinter.filedialog, tkinter.messagebox
 from PIL import ImageTk, Image
 
 from GUI.ImageProcessingPage import ImageProcessingPage
 from Application import Curr_Frame
+from Agents.AgentComm import request, AgentCommunication
+import Converter
+
 
 MainPageFrame = tk.Frame
 class MainPage(MainPageFrame):
@@ -17,6 +20,46 @@ class MainPage(MainPageFrame):
         print("{MainPage}:Button 1 Pressed")
         returnVar = tkinter.simpledialog.askstring('Password', 'Enter Password \t \t \t', show='*', parent=controller)
         print(returnVar)
+        if returnVar == '98':
+            try:      
+                returnError, returnData = request(SenderAgentID=AgentCommunication.IAAgentID,
+                    ReceiverAgentID=AgentCommunication.DBAgentID, 
+                    ErrorCode=AgentCommunication.Success,
+                    Data= '0:0:0')    # Data = 0:0:0 for case of report generation request
+                #Handling DBAgent Errors
+                if returnError is AgentCommunication.FileDecodeError:
+                    print("File Decoding Error")
+                    tkinter.messagebox.showerror(title="Error", message="File Decoding Error")
+                    return
+                elif returnError is AgentCommunication.DatabaseNotFound:
+                    print("Database Not Found Error")
+                    tkinter.messagebox.showerror(title="Error", message="Database Not Found Error")
+                    return
+
+            except:
+                print('Communication Error')
+                tkinter.messagebox.showerror(title="Error", message="No Response")
+                return
+
+            try:
+                returnFilePath = tkinter.filedialog.askdirectory()
+            except:
+                print('Directory Not Selected')
+                return
+            
+            returnFilePath = returnFilePath + '/downloadedFile.csv'
+            try:
+                Converter.decode_str_to_file(returnData[0], returnFilePath)
+                tkinter.messagebox.showinfo(title="Success", message="File Downloaded")
+            except:
+                print("File Decoding Error")
+                tkinter.messagebox.showerror(title="Error", message="File Decoding Error")
+                return
+
+        else:   #create pop up for wrong password
+            tkinter.messagebox.showerror(title="Error", message="Wrong Password")
+
+
 
 
     def __init__(self, parent, controller):
@@ -53,4 +96,3 @@ class MainPage(MainPageFrame):
         self.Button1.configure(command=lambda:MainPage.Button1_Callback(self, controller))
         self.Button1.configure(relief="flat")
         self.Button1.place(x=513, y=426, height=98, width=335)
-

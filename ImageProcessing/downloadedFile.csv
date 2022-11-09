@@ -1,0 +1,22 @@
+index,Image_ID,Object_Class,Accuracy (%)
+1,pic1.jpg,lab_coat,39.89
+2,pic1.jpg,lab_coat,39.7
+3,pic1.jpg,lab_coat,39.4
+4,cat.jpeg,Egyptian_cat,78.06
+5,cat.jpeg,Egyptian_cat,77.83
+6,animals_hero_giraffe_1_0.jpg,ibex,66.96
+7,golden-retriever-royalty-free-image-506756303-1560962726.jpg,clumber,50.28
+8,golden-retriever-royalty-free-image-506756303-1560962726.jpg,clumber,52.06
+9,golden-retriever-royalty-free-image-506756303-1560962726.jpg,clumber,53.24
+10,pic1.jpg,lab_coat,39.09
+11,animals_hero_giraffe_1_0.jpg,ibex,67.24
+12,golden-retriever-royalty-free-image-506756303-1560962726.jpg,clumber,53.67
+13,animals_hero_giraffe_1_0.jpg,ibex,67.35
+14,animals_hero_giraffe_1_0.jpg,ibex,67.47
+15,pic1.jpg,lab_coat,38.72
+16,golden-retriever-royalty-free-image-506756303-1560962726.jpg,clumber,53.75
+17,golden-retriever-royalty-free-image-506756303-1560962726.jpg,clumber,53.51
+18,animals_hero_giraffe_1_0.jpg,ibex,67.31
+19,golden-retriever-royalty-free-image-506756303-1560962726.jpg,clumber,53.53
+20,cat.jpeg,Egyptian_cat,77.69
+21,pic1.jpg,lab_coat,38.31
