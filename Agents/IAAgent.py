@@ -1,11 +1,9 @@
-import asyncio
 from spade.agent import Agent
 from spade.behaviour import CyclicBehaviour
 from spade.message import Message
 from spade.template import Template
 
 from Agents.AgentComm import AgentCommunication
-import Converter
 
 class IAAgentClass(Agent):
     class IAAgentBehaviour(CyclicBehaviour):

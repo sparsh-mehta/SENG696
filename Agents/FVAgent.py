@@ -1,6 +1,3 @@
-from spade import agent, quit_spade
-import time
-import asyncio
 from spade.agent import Agent
 from spade.behaviour import CyclicBehaviour
 from spade.message import Message
@@ -8,7 +5,6 @@ from spade.template import Template
 
 from Agents.AgentComm import AgentCommunication
 from FileVerification.Test import FileVerification
-
 
 class FVAgentClass(Agent):
     class FVAgentBehaviour(CyclicBehaviour):
@@ -38,7 +34,6 @@ class FVAgentClass(Agent):
 
                 #print("Agent2Class:Agent2Behaviour:run:msg:response:{CovidReport.pdf Sent}")
                 await self.send(msg)
-
 
     async def setup(self):
         print("FVAgent Setup")
