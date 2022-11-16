@@ -1,15 +1,9 @@
 import tkinter as tk
-from tkinter import filedialog
-from tkinter.filedialog import askopenfile
-from PIL import Image, ImageTk
-
 
 from Agents.IAAgent import startIAAgent
 from Agents.IPAgent import startIPAgent
 from Agents.FVAgent import startFVAgent
 from Agents.DBAgent import startDBAgent
-from Agents.AgentComm import request, AgentCommunication
-
 from GUI.MainPage import MainPage
 from GUI.ImageProcessingPage import ImageProcessingPage
 
@@ -20,7 +14,6 @@ def startAgents():
     startFVAgent()
     startDBAgent()
     startIAAgent()
-
 
 class Application(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -44,16 +37,11 @@ class Application(tk.Tk):
 
         Curr_Frame = MainPage.MainPage
         #Curr_Frame = ImageProcessingPage.ImageProcessingPage
-
         self.show_frame(Curr_Frame)
-
-
 
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
-
-
 
 if __name__ == '__main__':
     startAgents()

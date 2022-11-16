@@ -1,11 +1,10 @@
 import tkinter as tk
 import tkinter.simpledialog , tkinter.filedialog, tkinter.messagebox
-from PIL import ImageTk, Image
 
 from GUI.ImageProcessingPage import ImageProcessingPage
 from Application import Curr_Frame
 from Agents.AgentComm import request, AgentCommunication
-import Converter
+import Agents.Converter as Converter
 
 
 MainPageFrame = tk.Frame
@@ -22,11 +21,13 @@ class MainPage(MainPageFrame):
         print(returnVar)
         if returnVar == '98':
             try:      
+                # Data = 0:0:0 for case of report generation request
                 returnError, returnData = request(SenderAgentID=AgentCommunication.IAAgentID,
                     ReceiverAgentID=AgentCommunication.DBAgentID, 
                     ErrorCode=AgentCommunication.Success,
-                    Data= '0:0:0')    # Data = 0:0:0 for case of report generation request
-                #Handling DBAgent Errors
+                    Data= '0:0:0')    
+                
+                # Handling DBAgent Errors
                 if returnError is AgentCommunication.FileDecodeError:
                     print("File Decoding Error")
                     tkinter.messagebox.showerror(title="Error", message="File Decoding Error")
@@ -58,9 +59,6 @@ class MainPage(MainPageFrame):
 
         else:   #create pop up for wrong password
             tkinter.messagebox.showerror(title="Error", message="Wrong Password")
-
-
-
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)

@@ -5,7 +5,7 @@ import tkinter.filedialog
 from GUI.MainPage import MainPage
 from Application import Curr_Frame
 from Agents.AgentComm import request, AgentCommunication
-from Converter import encode_file_to_str
+from Agents.Converter import encode_file_to_str
 
 ImageProcessingPageFrame = tk.Frame
 
@@ -71,7 +71,7 @@ class ImageProcessingPage(ImageProcessingPageFrame):
             returnError, returnData = request(SenderAgentID=AgentCommunication.IAAgentID,
                     ReceiverAgentID=AgentCommunication.IPAgentID, 
                     ErrorCode=AgentCommunication.Success,
-                    Data= self.data)
+                    Data= self.data)        
             #Handling IPAgent Errors
             if returnError is AgentCommunication.FileDecodeError:
                 print("File Decoding Error")
