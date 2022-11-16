@@ -1,11 +1,9 @@
-import asyncio
 from spade.agent import Agent
 from spade.behaviour import CyclicBehaviour
 from spade.message import Message
-from spade.template import Template
 
 from Agents.AgentComm import AgentCommunication
-import Converter
+import Agents.Converter as Converter
 from ImageProcessing import image_classification_model
 
 class IPAgentClass(Agent):
@@ -21,8 +19,9 @@ class IPAgentClass(Agent):
                 msg = Message(to=AgentCommunication.IAAgentUserID)  # Instantiate the message
                 msg.set_metadata("performative", "inform")  # Set the "inform" FIPA performative
                 try:
-                    Converter.decode_str_to_file(ReceivedMessage[1], "ImageProcessing/decodedImage.jpeg")
-                    ReturnAccuracy, Returnclass, ReturnError = image_classification_model.processImage('ImageProcessing/decodedImage.jpeg')
+                    Converter.decode_str_to_file(ReceivedMessage[1], "Documents/decodedImage.jpeg")
+                    ReturnAccuracy, Returnclass, ReturnError = image_classification_model.\
+                        processImage('Documents/decodedImage.jpeg')
                 except:
                     print("{IPAgentClass}: FileDecodeError")
                     ReturnError = AgentCommunication.FileDecodeError
@@ -42,7 +41,6 @@ class IPAgentClass(Agent):
                 #print("Agent2Class:Agent2Behaviour:run:msg:response:{CovidReport.pdf Sent}")
                 await self.send(msg)
 
-                
             # else:
                 # No Messages to be sent
             #await asyncio.sleep(2)
