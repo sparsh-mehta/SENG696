@@ -77,16 +77,18 @@ class ImageProcessingPage(ImageProcessingPageFrame):
                 print("File Decoding Error")
                 tkinter.messagebox.showerror(title="Error", message="File Decoding Error")
                 return
+            else:
+                self.Label1.configure(text = returnData[0])
+                self.Label2.configure(text = str(float(returnData[1])/100)+"%")
+                # Sending data copy to Db Agent
+                tempVar = ImageProcessingPage.filename.split('/')[-1]
 
         except:
             print('Communication Error')
             tkinter.messagebox.showerror(title="Error", message="No Response")
             return
 
-        self.Label1.configure(text = returnData[0])
-        self.Label2.configure(text = str(float(returnData[1])/100)+"%")
-        # Sending data copy to Db Agent
-        tempVar = ImageProcessingPage.filename.split('/')[-1]
+        
 
         try:
             returnError, returnData = request(SenderAgentID=AgentCommunication.IAAgentID,

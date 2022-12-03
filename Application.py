@@ -10,9 +10,9 @@ from GUI.ImageProcessingPage import ImageProcessingPage
 Curr_Frame = 0
 
 def startAgents():
-    startIPAgent()
-    startFVAgent()
-    startDBAgent()
+    # startIPAgent()
+    # startFVAgent()
+    # startDBAgent()
     startIAAgent()
 
 class Application(tk.Tk):

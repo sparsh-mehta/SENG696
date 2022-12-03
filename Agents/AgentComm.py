@@ -8,7 +8,7 @@ class AgentCommunication:
 
     IAAgentUserID = "faker1@jabbim.com"
     IAAgentPassword = "Qwerty123"
-    IPAgentUserID = "faker@lightwitch.org"
+    IPAgentUserID = "faker5@jabbim.com"
     IPAgentPassword = "Qwerty123"
     FVAgentUserID = "faker2@jabbim.com"
     FVAgentPassword = "Qwerty123"
