@@ -15,7 +15,7 @@ class DBAgentClass(Agent):
 
         async def run(self):
             #print("Agent2Class:Agent2Behaviour:run")
-            msg = await self.receive(timeout=5) # wait for a message for 10 seconds
+            msg = await self.receive(timeout=5) # wait for a message for 5 seconds
             if msg:
                 ReceivedMessage = msg.body
                 print("{DBAgentClass} Request- " + ReceivedMessage)
@@ -48,7 +48,6 @@ class DBAgentClass(Agent):
                 # Send response to Agent1 agent
                 msg.body = AgentCommunication.DBAgentID + AgentCommunication.IAAgentID + str(error) + ':' + data
                 print("{DBAgentClass} Response- " + msg.body)
-                #print("Agent2Class:Agent2Behaviour:run:msg:response:{CovidReport.pdf Sent}")
                 await self.send(msg)
 
     async def setup(self):
